@@ -23,6 +23,12 @@ const mod = productImages[key];
 if (!mod) {
 	throw new Error(`Product image not found: ${file}`);
 }
+
+const intrinsicWidth = mod.default.width;
+const candidateWidths = [width, width * 1.5, width * 2, width * 3]
+	.map((w) => Math.round(w))
+	.filter((w) => w <= intrinsicWidth);
+const widths = candidateWidths.length > 0 ? candidateWidths : [Math.min(width, intrinsicWidth)];
 ---
 
 <Image
@@ -30,9 +36,10 @@ if (!mod) {
 	alt={alt}
 	width={width}
 	height={height}
+	widths={widths}
 	loading={loading}
 	sizes={sizes}
 	formats={["avif", "webp"]}
-	quality={82}
+	quality={88}
 	class={className}
 />

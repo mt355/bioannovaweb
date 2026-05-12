@@ -1,13 +1,22 @@
 ---
+import { Image } from "astro:assets";
 import HeaderLink from "./HeaderLink.astro";
 import { CONCERNS } from "../consts";
+import logo from "../assets/logo.png";
 ---
 
 <header class="site-header">
 	<div class="container header-inner">
 		<a href="/" class="brand" aria-label="BioAnnova home">
-			<span class="brand-mark">B</span>
-			<span class="brand-name">BIOANNOVA</span>
+			<Image
+				src={logo}
+				alt="BioAnnova"
+				widths={[160, 240, 320, 480]}
+				sizes="160px"
+				quality={92}
+				loading="eager"
+				class="brand-logo"
+			/>
 		</a>
 
 		<nav class="nav-desktop" aria-label="Primary">
@@ -76,25 +85,12 @@ import { CONCERNS } from "../consts";
 	.brand {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.75rem;
 		text-decoration: none;
 	}
-	.brand-mark {
-		width: 32px;
-		height: 32px;
-		display: grid;
-		place-items: center;
-		background: var(--c-forest);
-		color: var(--c-bone);
-		font-family: var(--ff-serif);
-		font-size: 1.1rem;
-		border-radius: 50%;
-	}
-	.brand-name {
-		font-family: var(--ff-serif);
-		font-size: 1.15rem;
-		letter-spacing: 0.22em;
-		font-weight: 500;
+	.brand :global(.brand-logo) {
+		display: block;
+		height: clamp(36px, 4.5vw, 48px);
+		width: auto;
 	}
 
 	.nav-desktop {

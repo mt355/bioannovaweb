@@ -13,7 +13,7 @@ interface Props {
 const {
 	title = SITE_TITLE,
 	description = SITE_DESCRIPTION,
-	image = "/og-default.jpg",
+	image = "/logo.png",
 	type = "website",
 	jsonLd,
 } = Astro.props;
@@ -27,7 +27,7 @@ const organizationLd = {
 	"@type": "Organization",
 	name: BRAND.name,
 	url: Astro.site?.toString(),
-	logo: new URL("/favicon.svg", Astro.site).toString(),
+	logo: new URL("/logo.png", Astro.site).toString(),
 	parentOrganization: {
 		"@type": "Organization",
 		name: BRAND.parent,

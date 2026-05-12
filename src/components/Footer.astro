@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { BRAND, CONCERNS } from "../consts";
+import logo from "../assets/logo.png";
 const year = new Date().getFullYear();
 ---
 
@@ -7,9 +9,16 @@ const year = new Date().getFullYear();
 	<div class="container">
 		<div class="footer-grid">
 			<div class="footer-brand">
-				<a href="/" class="footer-logo">
-					<span class="brand-mark">B</span>
-					<span class="brand-name">BIOANNOVA</span>
+				<a href="/" class="footer-logo" aria-label="BioAnnova home">
+					<Image
+						src={logo}
+						alt="BioAnnova"
+						widths={[200, 320, 480, 640]}
+						sizes="220px"
+						quality={92}
+						loading="lazy"
+						class="footer-logo-img"
+					/>
 				</a>
 				<p class="footer-tagline">Clean oral care, naturally formulated.</p>
 				<p class="footer-credit">
@@ -76,25 +85,12 @@ const year = new Date().getFullYear();
 	.footer-logo {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.75rem;
 		margin-bottom: var(--sp-4);
 	}
-	.brand-mark {
-		width: 32px;
-		height: 32px;
-		display: grid;
-		place-items: center;
-		background: var(--c-bone);
-		color: var(--c-forest-deep);
-		font-family: var(--ff-serif);
-		font-size: 1.1rem;
-		border-radius: 50%;
-	}
-	.brand-name {
-		font-family: var(--ff-serif);
-		font-size: 1.15rem;
-		letter-spacing: 0.22em;
-		font-weight: 500;
+	.footer-logo :global(.footer-logo-img) {
+		display: block;
+		height: 56px;
+		width: auto;
 	}
 	.footer-tagline {
 		font-family: var(--ff-serif);
