@@ -1,0 +1,153 @@
+---
+import Base from "../layouts/Base.astro";
+import { BRAND } from "../consts";
+---
+
+<Base
+	title="Contact"
+	description="Get in touch with BioAnnova. Customer questions, wholesale enquiries, and press — we read every message."
+>
+	<section class="contact-hero">
+		<div class="container-narrow">
+			<span class="eyebrow eyebrow--mute reveal">Contact</span>
+			<h1 class="reveal">We read every message.</h1>
+			<p class="lede reveal">Customer questions, wholesale enquiries, and press — write to us directly below or reach our parent office in London.</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container contact-grid">
+			<aside class="contact-info reveal">
+				<h2>Direct lines</h2>
+				<dl>
+					<dt>Email</dt>
+					<dd><a href={`mailto:${BRAND.email}`}>{BRAND.email}</a></dd>
+					<dt>Phone</dt>
+					<dd><a href={`tel:${BRAND.phone.replace(/\s/g, "")}`}>{BRAND.phone}</a></dd>
+					<dt>Post</dt>
+					<dd>
+						{BRAND.parent}<br />
+						78 York Street<br />
+						London, United Kingdom
+					</dd>
+					<dt>Parent company</dt>
+					<dd><a href={BRAND.parentSite} target="_blank" rel="noopener">herbapharmedica.co.uk</a></dd>
+				</dl>
+			</aside>
+
+			<form class="contact-form reveal" data-contact-form novalidate>
+				<div class="field">
+					<label class="label" for="c-name">Name</label>
+					<input id="c-name" name="name" class="input" type="text" required minlength="1" maxlength="120" autocomplete="name" />
+				</div>
+				<div class="field">
+					<label class="label" for="c-email">Email</label>
+					<input id="c-email" name="email" class="input" type="email" required maxlength="254" autocomplete="email" />
+				</div>
+				<div class="field">
+					<label class="label" for="c-subject">Subject</label>
+					<select id="c-subject" name="subject" class="input">
+						<option value="general">General enquiry</option>
+						<option value="wholesale">Wholesale</option>
+						<option value="press">Press</option>
+						<option value="support">Order support</option>
+					</select>
+				</div>
+				<div class="field">
+					<label class="label" for="c-message">Message</label>
+					<textarea id="c-message" name="message" class="textarea" required minlength="5" maxlength="5000"></textarea>
+				</div>
+
+				<input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+				<button type="submit" class="btn btn--primary">Send message</button>
+				<p class="form-status" data-status role="status" aria-live="polite"></p>
+			</form>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.contact-hero { padding: var(--sp-24) 0 var(--sp-12); background: var(--c-cream); }
+	.contact-hero h1 { font-size: var(--fs-3xl); margin: var(--sp-4) 0 var(--sp-4); max-width: 18ch; }
+	.contact-hero .lede { max-width: 50ch; }
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-16);
+	}
+	@media (min-width: 860px) { .contact-grid { grid-template-columns: 1fr 1.4fr; gap: var(--sp-20); } }
+
+	.contact-info h2 { font-size: 1.3rem; margin-bottom: var(--sp-6); }
+	.contact-info dl { display: grid; gap: var(--sp-5); margin: 0; }
+	.contact-info dt {
+		font-size: 0.7rem;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--c-ink-mute);
+		margin-bottom: var(--sp-1);
+	}
+	.contact-info dd { margin: 0; font-size: 1rem; line-height: 1.6; }
+	.contact-info dd a { border-bottom: 1px solid var(--c-line); padding-bottom: 1px; }
+	.contact-info dd a:hover { color: var(--c-forest); border-bottom-color: var(--c-forest); }
+
+	.contact-form { display: grid; gap: var(--sp-6); }
+	.field { display: grid; }
+	.hp { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+	.form-status {
+		font-size: 0.85rem;
+		min-height: 1.2em;
+		color: var(--c-ink-mute);
+		margin: 0;
+	}
+	.form-status[data-state="ok"] { color: var(--c-forest); }
+	.form-status[data-state="err"] { color: #a44; }
+	.contact-form .btn { justify-self: start; }
+</style>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+	const status = form?.querySelector<HTMLElement>("[data-status]");
+	if (form && status) {
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			const data = new FormData(form);
+			const payload = {
+				name: String(data.get("name") || "").trim(),
+				email: String(data.get("email") || "").trim(),
+				subject: String(data.get("subject") || "general"),
+				message: String(data.get("message") || "").trim(),
+				company: String(data.get("company") || ""),
+			};
+			if (!payload.name || !payload.email || payload.message.length < 5) {
+				status.textContent = "Please complete all required fields.";
+				status.dataset.state = "err";
+				return;
+			}
+			status.textContent = "Sending…";
+			status.dataset.state = "";
+			try {
+				const res = await fetch("/api/contact", {
+					method: "POST",
+					headers: { "Content-Type": "application/json", Accept: "application/json" },
+					body: JSON.stringify(payload),
+				});
+				if (res.ok) {
+					form.reset();
+					status.textContent = "Thank you — we'll be in touch within two business days.";
+					status.dataset.state = "ok";
+				} else if (res.status === 429) {
+					status.textContent = "Too many requests. Please try again in a minute.";
+					status.dataset.state = "err";
+				} else {
+					status.textContent = "Something went wrong. Please try again or email us directly.";
+					status.dataset.state = "err";
+				}
+			} catch {
+				status.textContent = "Network error. Please try again.";
+				status.dataset.state = "err";
+			}
+		});
+	}
+</script>

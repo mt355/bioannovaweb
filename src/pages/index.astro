@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import ShopByConcern from "../components/ShopByConcern.astro";
+import ProductCard from "../components/ProductCard.astro";
+import TrustPillars from "../components/TrustPillars.astro";
+import HeritageCallout from "../components/HeritageCallout.astro";
+import BundleCTA from "../components/BundleCTA.astro";
+import EmailSignup from "../components/EmailSignup.astro";
+
+const products = (await getCollection("products")).sort(
+	(a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base>
+	<Hero />
+	<ShopByConcern />
+
+	<section class="section" id="range">
+		<div class="container">
+			<div class="range-head reveal">
+				<span class="eyebrow eyebrow--mute">The Range</span>
+				<h2>Four formulas. One standard.</h2>
+				<p class="lede" style="max-width: 56ch;">
+					Each paste is built around a single concern — and the same clean-ingredient
+					philosophy across the board.
+				</p>
+			</div>
+			<div class="range-grid">
+				{products.map((p, i) => <ProductCard product={p} priority={i < 2} />)}
+			</div>
+		</div>
+	</section>
+
+	<TrustPillars />
+	<HeritageCallout />
+	<BundleCTA />
+	<EmailSignup />
+</Base>
+
+<style>
+	.range-head { margin-bottom: var(--sp-16); max-width: 38ch; }
+	.range-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-12);
+	}
+	@media (min-width: 680px) { .range-grid { grid-template-columns: repeat(2, 1fr); } }
+	@media (min-width: 1100px) { .range-grid { grid-template-columns: repeat(4, 1fr); gap: var(--sp-8); } }
+</style>

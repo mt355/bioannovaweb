@@ -1,0 +1,117 @@
+---
+import Base from "../layouts/Base.astro";
+import EmailSignup from "../components/EmailSignup.astro";
+
+const principles = [
+	{
+		title: "Fluoride at clinically aligned levels",
+		body: "Sodium fluoride remains the most evidence-supported active against caries. Every BioAnnova formula contains it at the levels endorsed by the British Dental Association.",
+	},
+	{
+		title: "Low-abrasion polishing (RDA-aware)",
+		body: "We formulate below RDA 70 — comfortably under the threshold dentists consider safe for daily long-term use, so you brighten enamel without wearing it down.",
+	},
+	{
+		title: "Potassium nitrate for true sensitivity relief",
+		body: "Our Sensitive paste uses 5% potassium nitrate — the active most often endorsed for nerve-conducted sensitivity, with measurable effects in two weeks.",
+	},
+	{
+		title: "Clean by exclusion",
+		body: "No sodium lauryl sulphate, no parabens, no synthetic dyes, no triclosan, no artificial sweeteners. Every ingredient earns its place — or it isn't in the tube.",
+	},
+];
+---
+
+<Base
+	title="The Science"
+	description="How BioAnnova formulates — the actives, the abrasion standards, and the exclusions. Backed by 13+ years of in-house product development at Herbapharmedica Ltd."
+>
+	<section class="science-hero">
+		<div class="container-narrow">
+			<span class="eyebrow eyebrow--mute reveal">The Science</span>
+			<h1 class="reveal">
+				Honest <em>chemistry.</em><br /> Considered <em>exclusions.</em>
+			</h1>
+			<p class="lede reveal" style="margin-top: var(--sp-6);">
+				Every BioAnnova paste is developed in-house, from concept to manufacture,
+				at our parent company's London facilities — the same discipline that
+				supplies the UK's largest high-street retailers.
+			</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="principles">
+				{principles.map((p, i) => (
+					<article class="principle reveal" style={`transition-delay: ${i * 70}ms`}>
+						<span class="principle-n">0{i + 1}</span>
+						<h2 class="principle-title">{p.title}</h2>
+						<p class="principle-body">{p.body}</p>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="claims">
+		<div class="container-narrow">
+			<h2 class="reveal">A note on claims</h2>
+			<p class="reveal">
+				{`{{ FILL: clinical-claims placeholder — replace with the specific
+				trial data, RDA test results, and regulatory references you want to
+				cite. Until then, we make only ingredient-level claims supported by
+				published research. }}`}
+			</p>
+		</div>
+	</section>
+
+	<EmailSignup heading="Want the formulation details?" subhead="Sign up and we'll send the full ingredient deck the moment our science page is updated with clinical references." />
+</Base>
+
+<style>
+	.science-hero {
+		padding: var(--sp-24) 0 var(--sp-16);
+		background: var(--c-cream);
+	}
+	.science-hero h1 {
+		font-size: var(--fs-4xl);
+		max-width: 16ch;
+		margin: var(--sp-4) 0 0;
+	}
+	.science-hero h1 em { color: var(--c-forest); font-style: italic; }
+
+	.principles {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-10);
+	}
+	@media (min-width: 760px) { .principles { grid-template-columns: 1fr 1fr; gap: var(--sp-12); } }
+
+	.principle {
+		padding: var(--sp-8) 0;
+		border-top: 1px solid var(--c-forest);
+	}
+	.principle-n {
+		font-family: var(--ff-serif);
+		font-size: 0.95rem;
+		color: var(--c-forest);
+		letter-spacing: 0.08em;
+	}
+	.principle-title {
+		font-family: var(--ff-serif);
+		font-size: clamp(1.5rem, 2.5vw, 2rem);
+		margin: var(--sp-4) 0 var(--sp-3);
+	}
+	.principle-body {
+		font-size: 1rem;
+		line-height: 1.7;
+		color: var(--c-ink-soft);
+		margin: 0;
+		max-width: 48ch;
+	}
+
+	.claims { padding: var(--sp-20) 0; background: var(--c-bone-warm); }
+	.claims h2 { font-size: 1.75rem; margin-bottom: var(--sp-4); }
+	.claims p { font-family: var(--ff-serif); font-style: italic; color: var(--c-ink-mute); font-size: 1.05rem; }
+</style>

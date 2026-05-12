@@ -1,0 +1,33 @@
+{
+	"name": "Whitening & Anti-Cavity Toothpaste",
+	"tagline": "Visibly brighter. Quietly fortified.",
+	"concern": "cavity-protection",
+	"concernLabel": "Cavity Protection",
+	"shortDescription": "A dual-action paste that lifts stains while remineralising enamel against decay.",
+	"description": "When you want both. Our dual-action paste pairs micro-polishing silica with fluoride and a remineralising mineral complex — so you don't have to choose between whiter teeth and stronger ones. Designed for daily use, formulated to dentist-aligned standards.",
+	"price": 6.99,
+	"currency": "GBP",
+	"imageBase": "4",
+	"heroImage": "4-2.jpg",
+	"gallery": ["4-2.jpg", "4-1.jpg", "4-3.jpg", "4-4.jpg"],
+	"ingredients": [
+		{ "name": "Sodium Fluoride", "purpose": "Anti-cavity enamel protection" },
+		{ "name": "Hydrated Silica", "purpose": "Micro-polish for stain lift" },
+		{ "name": "Tetrasodium Pyrophosphate", "purpose": "Reduces tartar build-up" },
+		{ "name": "Calcium Carbonate", "purpose": "Remineralises micro-lesions" },
+		{ "name": "Mentha Piperita (Peppermint) Oil", "purpose": "Crisp, lasting freshness" }
+	],
+	"howToUse": [
+		"Apply a pea-sized amount to a soft-bristled brush.",
+		"Brush in small circles for two minutes, twice daily.",
+		"Spit, don't rinse — let the fluoride keep working.",
+		"Visible whitening in 2–4 weeks with consistent use."
+	],
+	"highlights": [
+		"Whitens and protects in one paste",
+		"Below dentist-recommended abrasion threshold",
+		"Tartar-control complex",
+		"Vegan · cruelty-free"
+	],
+	"order": 4
+}

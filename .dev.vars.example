@@ -1,0 +1,16 @@
+# Copy to `.dev.vars` for local dev. Production secrets are set via
+# `wrangler secret put <NAME>` — never commit real values.
+
+# Supabase (TODO: wire in api/subscribe.ts and api/contact.ts)
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# SMTP via cPanel (TODO: wire confirmation emails)
+SMTP_HOST=
+SMTP_PORT=465
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM=hello@bioannova.com
+
+# Optional: Cloudflare Rate Limiting binding for production rate limiter
+# (configure binding in wrangler.json under `rate_limits`)

@@ -1,0 +1,158 @@
+---
+import { BRAND, CONCERNS } from "../consts";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="container">
+		<div class="footer-grid">
+			<div class="footer-brand">
+				<a href="/" class="footer-logo">
+					<span class="brand-mark">B</span>
+					<span class="brand-name">BIOANNOVA</span>
+				</a>
+				<p class="footer-tagline">Clean oral care, naturally formulated.</p>
+				<p class="footer-credit">
+					A <a href={BRAND.parentSite} target="_blank" rel="noopener">{BRAND.parent}</a> brand.
+				</p>
+			</div>
+
+			<div>
+				<h4 class="footer-heading">Shop</h4>
+				<ul>
+					<li><a href="/products">All toothpastes</a></li>
+					{CONCERNS.map((c) => (
+						<li><a href={`/products/${c.productSlug}`}>{c.label}</a></li>
+					))}
+				</ul>
+			</div>
+
+			<div>
+				<h4 class="footer-heading">Brand</h4>
+				<ul>
+					<li><a href="/about">About</a></li>
+					<li><a href="/science">Science &amp; Ingredients</a></li>
+					<li><a href="/contact">Contact</a></li>
+				</ul>
+			</div>
+
+			<div>
+				<h4 class="footer-heading">Contact</h4>
+				<address class="footer-address">
+					{BRAND.parent}<br />
+					78 York Street<br />
+					London, United Kingdom<br />
+					<a href={`tel:${BRAND.phone.replace(/\s/g, "")}`}>{BRAND.phone}</a><br />
+					<a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+				</address>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<p>© {year} {BRAND.name}. All rights reserved.</p>
+			<p class="footer-since">Backed by {BRAND.parent} — FMCG expertise since {BRAND.parentSince}.</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		background: var(--c-forest-deep);
+		color: var(--c-bone);
+		padding: var(--sp-24) 0 var(--sp-8);
+		margin-top: var(--sp-32);
+	}
+	.footer-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-12);
+		padding-bottom: var(--sp-16);
+		border-bottom: 1px solid rgba(248, 246, 241, 0.12);
+	}
+	@media (min-width: 760px) {
+		.footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: var(--sp-16); }
+	}
+
+	.footer-logo {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: var(--sp-4);
+	}
+	.brand-mark {
+		width: 32px;
+		height: 32px;
+		display: grid;
+		place-items: center;
+		background: var(--c-bone);
+		color: var(--c-forest-deep);
+		font-family: var(--ff-serif);
+		font-size: 1.1rem;
+		border-radius: 50%;
+	}
+	.brand-name {
+		font-family: var(--ff-serif);
+		font-size: 1.15rem;
+		letter-spacing: 0.22em;
+		font-weight: 500;
+	}
+	.footer-tagline {
+		font-family: var(--ff-serif);
+		font-style: italic;
+		font-size: 1.1rem;
+		color: rgba(248, 246, 241, 0.85);
+		margin-bottom: var(--sp-4);
+	}
+	.footer-credit {
+		font-size: 0.85rem;
+		color: rgba(248, 246, 241, 0.65);
+	}
+	.footer-credit a { text-decoration: underline; text-underline-offset: 3px; }
+	.footer-credit a:hover { color: var(--c-bone); }
+
+	.footer-heading {
+		font-family: var(--ff-sans);
+		font-size: 0.72rem;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: rgba(248, 246, 241, 0.5);
+		margin: 0 0 var(--sp-6);
+		font-weight: 500;
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: var(--sp-3);
+	}
+	ul a {
+		color: rgba(248, 246, 241, 0.85);
+		font-size: 0.95rem;
+		transition: color 180ms ease;
+	}
+	ul a:hover { color: var(--c-bone); }
+
+	.footer-address {
+		font-style: normal;
+		font-size: 0.9rem;
+		line-height: 1.7;
+		color: rgba(248, 246, 241, 0.78);
+	}
+	.footer-address a { text-decoration: none; }
+	.footer-address a:hover { color: var(--c-bone); text-decoration: underline; }
+
+	.footer-bottom {
+		padding-top: var(--sp-8);
+		display: flex;
+		flex-direction: column;
+		gap: var(--sp-2);
+		justify-content: space-between;
+		font-size: 0.78rem;
+		color: rgba(248, 246, 241, 0.5);
+	}
+	@media (min-width: 760px) {
+		.footer-bottom { flex-direction: row; }
+	}
+	.footer-since { font-style: italic; }
+</style>

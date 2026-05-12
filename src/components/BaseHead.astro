@@ -1,0 +1,86 @@
+---
+import "../styles/global.css";
+import { SITE_TITLE, SITE_DESCRIPTION, BRAND } from "../consts";
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	type?: "website" | "article" | "product";
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+	title = SITE_TITLE,
+	description = SITE_DESCRIPTION,
+	image = "/og-default.jpg",
+	type = "website",
+	jsonLd,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const fullTitle = title === SITE_TITLE ? title : `${title} — ${BRAND.name}`;
+
+const organizationLd = {
+	"@context": "https://schema.org",
+	"@type": "Organization",
+	name: BRAND.name,
+	url: Astro.site?.toString(),
+	logo: new URL("/favicon.svg", Astro.site).toString(),
+	parentOrganization: {
+		"@type": "Organization",
+		name: BRAND.parent,
+		url: BRAND.parentSite,
+		foundingDate: String(BRAND.parentSince),
+		address: {
+			"@type": "PostalAddress",
+			streetAddress: "78 York Street",
+			addressLocality: "London",
+			addressCountry: "GB",
+		},
+		telephone: BRAND.phone,
+	},
+};
+
+const ldGraph = jsonLd
+	? Array.isArray(jsonLd)
+		? [organizationLd, ...jsonLd]
+		: [organizationLd, jsonLd]
+	: [organizationLd];
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="canonical" href={canonical} />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap"
+/>
+
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="theme-color" content="#1f4d3f" />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={BRAND.name} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(ldGraph)} />

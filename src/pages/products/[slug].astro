@@ -1,0 +1,374 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ProductImage from "../../components/ProductImage.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import EmailSignup from "../../components/EmailSignup.astro";
+import { BRAND } from "../../consts";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	const products = await getCollection("products");
+	return products.map((product) => ({
+		params: { slug: product.id },
+		props: { product },
+	}));
+}
+
+interface Props { product: CollectionEntry<"products"> }
+const { product } = Astro.props;
+const p = product.data;
+
+const all = (await getCollection("products")).sort((a, b) => a.data.order - b.data.order);
+const others = all.filter((x) => x.id !== product.id);
+
+const formatted = new Intl.NumberFormat("en-GB", {
+	style: "currency",
+	currency: p.currency,
+}).format(p.price);
+
+const productLd = {
+	"@context": "https://schema.org",
+	"@type": "Product",
+	name: p.name,
+	description: p.shortDescription,
+	brand: { "@type": "Brand", name: BRAND.name },
+	manufacturer: { "@type": "Organization", name: BRAND.parent },
+	offers: {
+		"@type": "Offer",
+		priceCurrency: p.currency,
+		price: p.price,
+		availability: "https://schema.org/InStock",
+		url: new URL(`/products/${product.id}`, Astro.site).toString(),
+	},
+};
+---
+
+<Base
+	title={p.name}
+	description={p.shortDescription}
+	type="product"
+	jsonLd={productLd}
+>
+	<section class="pdp">
+		<div class="container pdp-grid">
+			<div class="pdp-gallery reveal">
+				<div class="pdp-main">
+					<ProductImage
+						file={p.gallery[0]}
+						alt={p.name}
+						width={1200}
+						height={1500}
+						loading="eager"
+						sizes="(min-width: 980px) 48vw, 92vw"
+					/>
+				</div>
+				<div class="pdp-thumbs" role="tablist" aria-label={`${p.name} gallery`}>
+					{p.gallery.map((img, i) => (
+						<button
+							class:list={["pdp-thumb", { "is-active": i === 0 }]}
+							data-thumb={img}
+							role="tab"
+							aria-selected={i === 0}
+							aria-label={`View image ${i + 1}`}
+						>
+							<ProductImage
+								file={img}
+								alt=""
+								width={200}
+								height={250}
+								loading="lazy"
+								sizes="120px"
+							/>
+						</button>
+					))}
+				</div>
+			</div>
+
+			<div class="pdp-info reveal">
+				<span class="eyebrow">No. 0{p.order} · {p.concernLabel}</span>
+				<h1>{p.name}</h1>
+				<p class="lede">{p.tagline}</p>
+
+				<p class="pdp-price">{formatted}<span class="pdp-unit"> · 75ml tube</span></p>
+
+				<p class="pdp-desc">{p.description}</p>
+
+				<ul class="pdp-highlights">
+					{p.highlights.map((h) => (
+						<li>
+							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+								<path d="M3 8.5l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+							<span>{h}</span>
+						</li>
+					))}
+				</ul>
+
+				<div class="pdp-cta">
+					<button class="btn btn--primary" type="button">Add to cart — {formatted}</button>
+					<label class="sub-toggle">
+						<input type="checkbox" />
+						<span>Subscribe &amp; save 15% (every 8 weeks)</span>
+					</label>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="pdp-section">
+		<div class="container pdp-cols">
+			<details class="acc" open>
+				<summary>
+					<span>Ingredients</span>
+					<span class="acc-icon" aria-hidden="true">+</span>
+				</summary>
+				<div class="acc-body">
+					<p class="text-mute" style="font-size: 0.9rem;">
+						{`{{ FILL: full INCI list per regulatory format. Below is the
+						formulation summary — each active and its role. }}`}
+					</p>
+					<dl class="ingredient-list">
+						{p.ingredients.map((ing) => (
+							<div class="ingredient-row">
+								<dt>{ing.name}</dt>
+								<dd>{ing.purpose}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</details>
+
+			<details class="acc">
+				<summary>
+					<span>How to use</span>
+					<span class="acc-icon" aria-hidden="true">+</span>
+				</summary>
+				<div class="acc-body">
+					<ol class="howto-list">
+						{p.howToUse.map((step, i) => (
+							<li><span class="step-n">0{i + 1}</span>{step}</li>
+						))}
+					</ol>
+				</div>
+			</details>
+
+			<details class="acc">
+				<summary>
+					<span>Shipping &amp; returns</span>
+					<span class="acc-icon" aria-hidden="true">+</span>
+				</summary>
+				<div class="acc-body">
+					<p>Free UK shipping on orders over £25. International shipping calculated at checkout.</p>
+					<p>30-day returns on unopened products. Damaged or defective items refunded in full.</p>
+				</div>
+			</details>
+		</div>
+	</section>
+
+	<section class="section cross">
+		<div class="container">
+			<div class="cross-head reveal">
+				<span class="eyebrow eyebrow--mute">You may also like</span>
+				<h2>Complete the routine</h2>
+			</div>
+			<div class="cross-grid">
+				{others.map((o) => <ProductCard product={o} />)}
+			</div>
+		</div>
+	</section>
+
+	<EmailSignup />
+</Base>
+
+<style>
+	.pdp { padding: var(--sp-12) 0 var(--sp-20); }
+	@media (min-width: 980px) { .pdp { padding: var(--sp-20) 0; } }
+
+	.pdp-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-12);
+	}
+	@media (min-width: 980px) { .pdp-grid { grid-template-columns: 1.05fr 0.95fr; gap: var(--sp-16); } }
+
+	.pdp-main {
+		aspect-ratio: 4/5;
+		background: var(--c-cream);
+		overflow: hidden;
+	}
+	.pdp-main :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+	.pdp-thumbs {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--sp-3);
+		margin-top: var(--sp-4);
+	}
+	.pdp-thumb {
+		padding: 0;
+		background: var(--c-cream);
+		border: 1px solid transparent;
+		aspect-ratio: 4/5;
+		overflow: hidden;
+		transition: border-color 200ms ease, opacity 200ms ease;
+		opacity: 0.7;
+	}
+	.pdp-thumb:hover { opacity: 1; }
+	.pdp-thumb.is-active { border-color: var(--c-forest); opacity: 1; }
+	.pdp-thumb :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+	.pdp-info h1 {
+		font-size: clamp(2rem, 4vw, 3rem);
+		margin: var(--sp-4) 0 var(--sp-3);
+		max-width: 18ch;
+	}
+	.pdp-info .lede { margin-bottom: var(--sp-8); }
+
+	.pdp-price {
+		font-family: var(--ff-serif);
+		font-size: 1.75rem;
+		margin: 0 0 var(--sp-8);
+		padding-bottom: var(--sp-6);
+		border-bottom: 1px solid var(--c-line);
+	}
+	.pdp-unit { font-size: 0.95rem; color: var(--c-ink-mute); font-family: var(--ff-sans); }
+
+	.pdp-desc { font-size: 1.05rem; line-height: 1.7; color: var(--c-ink-soft); margin-bottom: var(--sp-8); }
+
+	.pdp-highlights {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 var(--sp-10);
+		display: grid;
+		gap: var(--sp-3);
+	}
+	.pdp-highlights li {
+		display: flex;
+		gap: var(--sp-3);
+		align-items: center;
+		font-size: 0.95rem;
+		color: var(--c-ink-soft);
+	}
+	.pdp-highlights svg { color: var(--c-forest); flex-shrink: 0; }
+
+	.pdp-cta { display: grid; gap: var(--sp-4); }
+	.sub-toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: 0.92rem;
+		color: var(--c-ink-soft);
+		cursor: pointer;
+	}
+	.sub-toggle input { accent-color: var(--c-forest); width: 16px; height: 16px; }
+
+	/* Accordion section */
+	.pdp-section {
+		padding: var(--sp-16) 0;
+		border-top: 1px solid var(--c-line);
+		border-bottom: 1px solid var(--c-line);
+	}
+	.pdp-cols {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+	.acc {
+		border-bottom: 1px solid var(--c-line);
+	}
+	.acc:last-child { border-bottom: 0; }
+	.acc summary {
+		list-style: none;
+		cursor: pointer;
+		padding: var(--sp-6) 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-family: var(--ff-serif);
+		font-size: 1.25rem;
+		transition: color 200ms ease;
+	}
+	.acc summary::-webkit-details-marker { display: none; }
+	.acc summary:hover { color: var(--c-forest); }
+	.acc-icon {
+		font-family: var(--ff-sans);
+		font-weight: 400;
+		font-size: 1.4rem;
+		transition: transform 200ms ease;
+	}
+	.acc[open] .acc-icon { transform: rotate(45deg); }
+	.acc-body { padding: 0 0 var(--sp-8); }
+
+	.ingredient-list { margin: 0; display: grid; gap: var(--sp-4); }
+	.ingredient-row {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-1);
+		padding: var(--sp-3) 0;
+		border-bottom: 1px solid var(--c-line);
+	}
+	.ingredient-row:last-child { border: 0; }
+	@media (min-width: 600px) { .ingredient-row { grid-template-columns: 1fr 1.4fr; gap: var(--sp-6); } }
+	.ingredient-row dt {
+		font-family: var(--ff-serif);
+		font-weight: 400;
+		font-size: 1rem;
+	}
+	.ingredient-row dd {
+		margin: 0;
+		font-size: 0.92rem;
+		color: var(--c-ink-mute);
+	}
+
+	.howto-list {
+		list-style: none;
+		counter-reset: step;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: var(--sp-4);
+	}
+	.howto-list li {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--sp-4);
+		font-size: 1rem;
+		color: var(--c-ink-soft);
+		line-height: 1.6;
+	}
+	.step-n {
+		font-family: var(--ff-serif);
+		font-size: 0.85rem;
+		color: var(--c-forest);
+		letter-spacing: 0.06em;
+	}
+
+	.cross-head { margin-bottom: var(--sp-12); }
+	.cross-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-10);
+	}
+	@media (min-width: 680px) { .cross-grid { grid-template-columns: repeat(3, 1fr); gap: var(--sp-8); } }
+</style>
+
+<script>
+	const thumbs = document.querySelectorAll<HTMLButtonElement>("[data-thumb]");
+	const mainImg = document.querySelector<HTMLImageElement>(".pdp-main img");
+	if (mainImg) {
+		thumbs.forEach((thumb) => {
+			thumb.addEventListener("click", () => {
+				const thumbImg = thumb.querySelector<HTMLImageElement>("img");
+				if (!thumbImg) return;
+				thumbs.forEach((t) => {
+					t.classList.toggle("is-active", t === thumb);
+					t.setAttribute("aria-selected", String(t === thumb));
+				});
+				mainImg.src = thumbImg.src;
+				mainImg.srcset = thumbImg.srcset;
+			});
+		});
+	}
+</script>

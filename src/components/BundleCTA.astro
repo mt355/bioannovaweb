@@ -1,0 +1,103 @@
+---
+import ProductImage from "./ProductImage.astro";
+
+const bundleTotal = 6.99 * 4;
+const bundlePrice = 24.99;
+const formatted = (n: number) =>
+	new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(n);
+---
+
+<section class="section bundle">
+	<div class="container bundle-grid">
+		<div class="bundle-media reveal">
+			<div class="bundle-tiles">
+				<ProductImage file="1-2.jpg" alt="Bamboo Charcoal" width={400} height={500} sizes="(min-width: 800px) 22vw, 45vw" />
+				<ProductImage file="2-2.jpg" alt="Sensitive Soothing Relief" width={400} height={500} sizes="(min-width: 800px) 22vw, 45vw" />
+				<ProductImage file="3-2.jpg" alt="Daily Care" width={400} height={500} sizes="(min-width: 800px) 22vw, 45vw" />
+				<ProductImage file="4-2.jpg" alt="Whitening & Anti-Cavity" width={400} height={500} sizes="(min-width: 800px) 22vw, 45vw" />
+			</div>
+		</div>
+
+		<div class="bundle-copy reveal">
+			<span class="eyebrow">The complete routine</span>
+			<h2>All four formulas. One ritual.</h2>
+			<p class="lede">
+				Whitening, sensitivity, daily care, and anti-cavity — the full
+				BioAnnova range, bundled at a deliberate saving.
+			</p>
+			<div class="bundle-price">
+				<span class="bundle-now">{formatted(bundlePrice)}</span>
+				<span class="bundle-was">{formatted(bundleTotal)}</span>
+				<span class="bundle-save">Save {formatted(bundleTotal - bundlePrice)}</span>
+			</div>
+			<div class="bundle-actions">
+				<button class="btn btn--primary" type="button">Add bundle to cart</button>
+				<label class="bundle-sub">
+					<input type="checkbox" />
+					<span>Subscribe &amp; save another 15%</span>
+				</label>
+			</div>
+			<p class="text-mute" style="font-size: 0.85rem; margin-top: var(--sp-6);">
+				Free UK shipping over £25 · Cancel anytime
+			</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	.bundle-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-12);
+		align-items: center;
+	}
+	@media (min-width: 900px) {
+		.bundle-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-20); }
+	}
+
+	.bundle-tiles {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--sp-3);
+	}
+	.bundle-tiles :global(img) {
+		width: 100%;
+		aspect-ratio: 4/5;
+		object-fit: cover;
+		background: var(--c-bone-warm);
+	}
+
+	.bundle-copy h2 { max-width: 14ch; margin-bottom: var(--sp-4); }
+	.bundle-copy .lede { margin-bottom: var(--sp-8); }
+
+	.bundle-price {
+		display: flex;
+		align-items: baseline;
+		gap: var(--sp-4);
+		flex-wrap: wrap;
+		padding: var(--sp-6) 0;
+		border-block: 1px solid var(--c-line);
+		margin-bottom: var(--sp-8);
+	}
+	.bundle-now { font-family: var(--ff-serif); font-size: 2.4rem; color: var(--c-forest); }
+	.bundle-was { color: var(--c-ink-mute); text-decoration: line-through; font-size: 1rem; }
+	.bundle-save {
+		background: var(--c-forest);
+		color: var(--c-bone);
+		padding: 0.25rem 0.6rem;
+		font-size: 0.7rem;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.bundle-actions { display: flex; flex-direction: column; gap: var(--sp-4); align-items: flex-start; }
+	.bundle-sub {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: 0.92rem;
+		color: var(--c-ink-soft);
+		cursor: pointer;
+	}
+	.bundle-sub input { accent-color: var(--c-forest); width: 16px; height: 16px; }
+</style>

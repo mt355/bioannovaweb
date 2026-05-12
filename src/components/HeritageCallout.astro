@@ -1,0 +1,65 @@
+---
+import { BRAND } from "../consts";
+---
+
+<section class="heritage">
+	<div class="container heritage-grid">
+		<div class="reveal">
+			<span class="eyebrow" style="color: var(--c-bone); opacity: 0.7;">Heritage</span>
+			<h2>A {BRAND.parent} brand.</h2>
+		</div>
+		<div class="reveal heritage-body">
+			<p>
+				BioAnnova is built on the manufacturing standards of {BRAND.parent} —
+				a London-based FMCG specialist trusted by major retailers, pharmacies,
+				and grocery chains since {BRAND.parentSince}.
+			</p>
+			<p>
+				From concept to manufacture, every formula passes through the same
+				in-house development discipline that supplies the UK's largest
+				high-street names.
+			</p>
+			<a href="/about" class="btn btn--outline btn-light">Read the story</a>
+		</div>
+	</div>
+</section>
+
+<style>
+	.heritage {
+		background: var(--c-forest);
+		color: var(--c-bone);
+		padding: var(--sp-24) 0;
+	}
+	@media (min-width: 768px) {
+		.heritage { padding: var(--sp-32) 0; }
+	}
+	.heritage-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-10);
+		align-items: start;
+	}
+	@media (min-width: 900px) {
+		.heritage-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-20); }
+	}
+	.heritage h2 {
+		color: var(--c-bone);
+		font-size: clamp(2.25rem, 5vw, 3.75rem);
+		line-height: 1.05;
+	}
+	.heritage-body p {
+		font-size: 1.05rem;
+		color: rgba(248, 246, 241, 0.82);
+		margin-bottom: var(--sp-4);
+		line-height: 1.7;
+	}
+	.btn-light {
+		border-color: var(--c-bone);
+		color: var(--c-bone);
+		margin-top: var(--sp-6);
+	}
+	.btn-light:hover {
+		background: var(--c-bone);
+		color: var(--c-forest);
+	}
+</style>

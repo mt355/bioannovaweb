@@ -1,0 +1,33 @@
+{
+	"name": "Sensitive Toothpaste — Soothing Relief",
+	"tagline": "Calm-formula relief for sensitive teeth and gums.",
+	"concern": "sensitivity",
+	"concernLabel": "Sensitivity",
+	"shortDescription": "Clinically aligned potassium nitrate paste that soothes nerve sensitivity from the first brush.",
+	"description": "Built for teeth that flinch at cold, hot, or sweet. Our soothing formula combines potassium nitrate — the active dentists most frequently recommend for sensitivity — with a gentle, low-RDA base that won't aggravate exposed dentin. Calming and effective from day one, with measurable relief in two weeks.",
+	"price": 6.99,
+	"currency": "GBP",
+	"imageBase": "2",
+	"heroImage": "2-2.jpg",
+	"gallery": ["2-2.jpg", "2-1.jpg", "2-3.jpg", "2-4.jpg"],
+	"ingredients": [
+		{ "name": "Potassium Nitrate (5%)", "purpose": "Calms exposed dentin nerves" },
+		{ "name": "Sodium Fluoride", "purpose": "Remineralises and protects enamel" },
+		{ "name": "Hydrated Silica", "purpose": "Ultra-low-RDA polish" },
+		{ "name": "Glycerin", "purpose": "Hydrates oral tissue" },
+		{ "name": "Aloe Barbadensis Leaf Juice", "purpose": "Soothes gums" }
+	],
+	"howToUse": [
+		"Use morning and night for the first two weeks for fastest relief.",
+		"Apply a pea-sized amount to a soft-bristled brush.",
+		"Brush gently for two full minutes.",
+		"Spit, don't rinse. Continue daily for ongoing protection."
+	],
+	"highlights": [
+		"5% potassium nitrate — dentist-recommended active",
+		"Soothes within 14 days of daily use",
+		"Ultra-low abrasion",
+		"Fluoride enamel repair"
+	],
+	"order": 2
+}

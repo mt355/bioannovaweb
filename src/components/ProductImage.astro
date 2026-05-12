@@ -1,0 +1,38 @@
+---
+import { Image } from "astro:assets";
+
+const productImages = import.meta.glob<{ default: ImageMetadata }>(
+	"../assets/products/*.jpg",
+	{ eager: true },
+);
+
+interface Props {
+	file: string;
+	alt: string;
+	width: number;
+	height?: number;
+	loading?: "eager" | "lazy";
+	sizes?: string;
+	class?: string;
+}
+
+const { file, alt, width, height, loading = "lazy", sizes, class: className } = Astro.props;
+
+const key = `../assets/products/${file}`;
+const mod = productImages[key];
+if (!mod) {
+	throw new Error(`Product image not found: ${file}`);
+}
+---
+
+<Image
+	src={mod.default}
+	alt={alt}
+	width={width}
+	height={height}
+	loading={loading}
+	sizes={sizes}
+	formats={["avif", "webp"]}
+	quality={82}
+	class={className}
+/>

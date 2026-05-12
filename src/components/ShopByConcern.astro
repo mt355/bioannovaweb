@@ -1,0 +1,87 @@
+---
+import { CONCERNS } from "../consts";
+
+const concernCopy: Record<string, string> = {
+	whitening: "Lift coffee, tea, and wine stains without enamel damage.",
+	sensitivity: "Calm nerve sensitivity in two weeks of daily use.",
+	"daily-care": "Your essential paste — refined to clean-label standards.",
+	"cavity-protection": "Whiten and remineralise enamel in a single step.",
+};
+---
+
+<section class="section concerns">
+	<div class="container">
+		<div class="concerns-head reveal">
+			<span class="eyebrow eyebrow--mute">Shop by concern</span>
+			<h2>What can we solve for you?</h2>
+		</div>
+		<div class="concerns-grid">
+			{CONCERNS.map((c, i) => (
+				<a href={`/products/${c.productSlug}`} class="concern reveal" style={`transition-delay: ${i * 80}ms`}>
+					<span class="concern-no">0{i + 1}</span>
+					<h3 class="concern-title">{c.label}</h3>
+					<p class="concern-copy">{concernCopy[c.slug]}</p>
+					<span class="concern-arrow" aria-hidden="true">→</span>
+				</a>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.concerns-head { margin-bottom: var(--sp-12); }
+	.concerns-head h2 { max-width: 22ch; }
+
+	.concerns-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1px;
+		background: var(--c-line);
+		border-block: 1px solid var(--c-line);
+	}
+	@media (min-width: 700px) { .concerns-grid { grid-template-columns: repeat(2, 1fr); } }
+	@media (min-width: 1024px) { .concerns-grid { grid-template-columns: repeat(4, 1fr); } }
+
+	.concern {
+		position: relative;
+		display: block;
+		padding: var(--sp-10) var(--sp-6);
+		background: var(--c-bone);
+		color: var(--c-ink);
+		transition: background 300ms ease, color 300ms ease;
+		min-height: 240px;
+	}
+	.concern:hover { background: var(--c-forest); color: var(--c-bone); }
+	.concern:hover .concern-no,
+	.concern:hover .concern-copy { color: rgba(248, 246, 241, 0.7); }
+
+	.concern-no {
+		display: block;
+		font-family: var(--ff-serif);
+		font-size: 0.9rem;
+		color: var(--c-ink-mute);
+		margin-bottom: var(--sp-12);
+		transition: color 300ms ease;
+	}
+	.concern-title {
+		font-family: var(--ff-serif);
+		font-size: 1.6rem;
+		margin: 0 0 var(--sp-3);
+		color: inherit;
+	}
+	.concern-copy {
+		font-size: 0.92rem;
+		color: var(--c-ink-mute);
+		margin: 0;
+		max-width: 26ch;
+		transition: color 300ms ease;
+	}
+	.concern-arrow {
+		position: absolute;
+		bottom: var(--sp-6);
+		right: var(--sp-6);
+		font-size: 1.4rem;
+		transition: transform 300ms ease;
+	}
+	.concern:hover .concern-arrow { transform: translateX(6px); }
+</style>

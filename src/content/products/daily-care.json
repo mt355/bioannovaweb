@@ -1,0 +1,33 @@
+{
+	"name": "Daily Care Toothpaste",
+	"tagline": "Your everyday clean — refined.",
+	"concern": "daily-care",
+	"concernLabel": "Daily Care",
+	"shortDescription": "A balanced, naturally-flavoured daily paste for healthy enamel, gums, and breath.",
+	"description": "The essential paste — engineered to do the everyday job exceptionally well. A balanced fluoride formula that fights plaque, supports gum health, and freshens breath without the harsh chemicals, sulphates, or synthetic dyes you don't need. Clean ingredients, clean teeth, clean conscience.",
+	"price": 6.99,
+	"currency": "GBP",
+	"imageBase": "3",
+	"heroImage": "3-2.jpg",
+	"gallery": ["3-2.jpg", "3-1.jpg", "3-3.jpg", "3-4.jpg"],
+	"ingredients": [
+		{ "name": "Sodium Fluoride", "purpose": "Cavity-preventing enamel protection" },
+		{ "name": "Hydrated Silica", "purpose": "Gentle daily polish" },
+		{ "name": "Calcium Carbonate", "purpose": "Mild remineralising support" },
+		{ "name": "Glycerin", "purpose": "Hydration without dryness" },
+		{ "name": "Mentha Spicata (Spearmint) Oil", "purpose": "Soft, refreshing flavour" }
+	],
+	"howToUse": [
+		"Apply a pea-sized amount to a soft-bristled brush.",
+		"Brush gently for two minutes, twice daily.",
+		"Spit, don't rinse.",
+		"Pair with flossing for the complete daily routine."
+	],
+	"highlights": [
+		"Sulphate-free, dye-free",
+		"Fluoride-protected enamel",
+		"Suitable for sensitive enamel",
+		"Vegan · cruelty-free"
+	],
+	"order": 3
+}

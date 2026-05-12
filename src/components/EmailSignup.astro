@@ -1,0 +1,114 @@
+---
+interface Props {
+	variant?: "section" | "inline";
+	heading?: string;
+	subhead?: string;
+}
+const {
+	variant = "section",
+	heading = "Quiet emails. Considered offers.",
+	subhead = "Get early access to new formulas, considered guides to oral care, and the occasional reader-only discount. Unsubscribe anytime.",
+} = Astro.props;
+---
+
+<section class:list={["signup", `signup--${variant}`]}>
+	<div class="container signup-inner">
+		<div class="signup-copy reveal">
+			<h2>{heading}</h2>
+			<p class="lede">{subhead}</p>
+		</div>
+		<form class="signup-form reveal" data-subscribe-form novalidate>
+			<label for="signup-email" class="sr-only">Email address</label>
+			<input
+				id="signup-email"
+				name="email"
+				type="email"
+				required
+				autocomplete="email"
+				placeholder="you@example.com"
+				class="input"
+				maxlength="254"
+			/>
+			<button type="submit" class="btn btn--primary">Subscribe</button>
+			<p class="signup-status" data-status role="status" aria-live="polite"></p>
+		</form>
+	</div>
+</section>
+
+<style>
+	.signup--section {
+		background: var(--c-bone-warm);
+		padding: var(--sp-20) 0;
+	}
+	@media (min-width: 768px) {
+		.signup--section { padding: var(--sp-24) 0; }
+	}
+	.signup-inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-10);
+		align-items: center;
+	}
+	@media (min-width: 900px) {
+		.signup-inner { grid-template-columns: 1fr 1fr; gap: var(--sp-20); }
+	}
+	.signup-copy h2 { font-size: clamp(1.75rem, 3.4vw, 2.6rem); margin-bottom: var(--sp-3); }
+	.signup-copy .lede { margin: 0; }
+
+	.signup-form {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		gap: var(--sp-4);
+		align-items: end;
+	}
+	.signup-form .input { font-size: 1.05rem; }
+	.signup-status {
+		grid-column: 1 / -1;
+		font-size: 0.85rem;
+		min-height: 1.2em;
+		color: var(--c-ink-mute);
+		margin: 0;
+	}
+	.signup-status[data-state="ok"] { color: var(--c-forest); }
+	.signup-status[data-state="err"] { color: #a44; }
+</style>
+
+<script>
+	const form = document.querySelector<HTMLFormElement>("[data-subscribe-form]");
+	const status = form?.querySelector<HTMLElement>("[data-status]");
+	if (form && status) {
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			const data = new FormData(form);
+			const email = String(data.get("email") || "").trim();
+			if (!email) {
+				status.textContent = "Please enter your email.";
+				status.dataset.state = "err";
+				return;
+			}
+			status.textContent = "Subscribing…";
+			status.dataset.state = "";
+			try {
+				const res = await fetch("/api/subscribe", {
+					method: "POST",
+					headers: { "Content-Type": "application/json", Accept: "application/json" },
+					body: JSON.stringify({ email }),
+				});
+				if (res.ok) {
+					form.reset();
+					status.textContent = "Thank you — please confirm via the email we just sent.";
+					status.dataset.state = "ok";
+				} else if (res.status === 429) {
+					status.textContent = "Too many requests. Please try again in a minute.";
+					status.dataset.state = "err";
+				} else {
+					status.textContent = "Something went wrong. Please try again.";
+					status.dataset.state = "err";
+				}
+			} catch {
+				status.textContent = "Network error. Please try again.";
+				status.dataset.state = "err";
+			}
+		});
+	}
+</script>

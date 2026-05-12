@@ -1,0 +1,76 @@
+---
+const pillars = [
+	{
+		n: "01",
+		title: "Clean ingredients",
+		body: "No SLS, no parabens, no synthetic dyes, no triclosan. Every ingredient earns its place.",
+	},
+	{
+		n: "02",
+		title: "Non-abrasive formula",
+		body: "Every paste is below the RDA threshold dentists recommend for daily wear-free use.",
+	},
+	{
+		n: "03",
+		title: "Dentist-aligned",
+		body: "Fluoride remineralisation, potassium-nitrate sensitivity relief — the actives clinicians actually endorse.",
+	},
+	{
+		n: "04",
+		title: "Sustainably packaged",
+		body: "Recyclable tubes, FSC cartons, and shipping that's as light on the planet as it is on your teeth.",
+	},
+];
+---
+
+<section class="section pillars">
+	<div class="container">
+		<div class="pillars-head reveal">
+			<span class="eyebrow eyebrow--mute">Why BioAnnova</span>
+			<h2>Four standards. No compromises.</h2>
+		</div>
+		<div class="pillars-grid">
+			{pillars.map((p, i) => (
+				<article class="pillar reveal" style={`transition-delay: ${i * 90}ms`}>
+					<span class="pillar-n">{p.n}</span>
+					<h3 class="pillar-title">{p.title}</h3>
+					<p class="pillar-body">{p.body}</p>
+				</article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.pillars { background: var(--c-cream); }
+	.pillars-head { margin-bottom: var(--sp-16); max-width: 36ch; }
+
+	.pillars-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-12);
+	}
+	@media (min-width: 700px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); } }
+	@media (min-width: 1024px) { .pillars-grid { grid-template-columns: repeat(4, 1fr); gap: var(--sp-10); } }
+
+	.pillar { border-top: 1px solid var(--c-forest); padding-top: var(--sp-6); }
+	.pillar-n {
+		font-family: var(--ff-serif);
+		font-size: 0.85rem;
+		color: var(--c-forest);
+		display: block;
+		margin-bottom: var(--sp-6);
+		letter-spacing: 0.08em;
+	}
+	.pillar-title {
+		font-family: var(--ff-serif);
+		font-size: 1.5rem;
+		margin: 0 0 var(--sp-3);
+	}
+	.pillar-body {
+		font-size: 0.95rem;
+		color: var(--c-ink-mute);
+		margin: 0;
+		line-height: 1.6;
+	}
+</style>

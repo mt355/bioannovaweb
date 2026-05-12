@@ -1,0 +1,153 @@
+---
+import Base from "../layouts/Base.astro";
+import EmailSignup from "../components/EmailSignup.astro";
+import { BRAND } from "../consts";
+---
+
+<Base
+	title="About BioAnnova"
+	description="The story behind BioAnnova — a clean-ingredient toothpaste range built on the manufacturing standards of Herbapharmedica Ltd, a London-based FMCG specialist since 2012."
+>
+	<section class="about-hero">
+		<div class="container-narrow">
+			<span class="eyebrow eyebrow--mute reveal">Our story</span>
+			<h1 class="reveal">
+				Oral care, <em>reformulated</em><br /> for the people who read labels.
+			</h1>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container-narrow">
+			<div class="prose reveal">
+				<p class="lede">
+					{`{{ FILL: bioannova story — the founding insight, the formulation philosophy,
+					the oral care mission. Replace this block with your final copy. }}`}
+				</p>
+				<p>
+					BioAnnova began with a simple frustration: the gap between what dentists
+					quietly recommend and what supermarket shelves quietly contain. We wanted
+					a paste built around the actives that work — fluoride, potassium nitrate,
+					low-abrasion silica — and not a single ingredient that didn't earn its place.
+				</p>
+				<p>
+					Four targeted formulas. One uncompromised standard. Made in the United Kingdom,
+					to the manufacturing discipline of one of London's most-trusted FMCG specialists.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="parent">
+		<div class="container parent-grid">
+			<div class="reveal">
+				<span class="eyebrow" style="color: var(--c-bone); opacity: 0.7;">Backed by</span>
+				<h2>{BRAND.parent}</h2>
+				<p class="parent-strap">Creative Solutions in the Health &amp; Beauty Markets</p>
+			</div>
+			<div class="parent-body reveal">
+				<p>
+					Founded in {BRAND.parentSince}, {BRAND.parent} supplies affordable,
+					fast-moving consumer goods (FMCG) to the multiple retail sector. We
+					deliver products at the price and quality the market demands,
+					ensuring they reach customers exactly when needed.
+				</p>
+				<p>
+					We develop our own products from concept to manufacture and operate
+					an in-house graphic design department. Alongside our extensive range
+					of healthcare and toiletry products under the Herbapharmedica brand,
+					we also provide innovative own-label ranges for major high-street retailers.
+				</p>
+				<ul class="parent-channels">
+					<li>Grocery chains</li>
+					<li>Pharmacies</li>
+					<li>Retailers</li>
+					<li>Department stores</li>
+					<li>Wholesalers</li>
+					<li>Malls</li>
+				</ul>
+				<p class="parent-credit">
+					<a href={BRAND.parentSite} target="_blank" rel="noopener">
+						herbapharmedica.co.uk →
+					</a>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<EmailSignup />
+</Base>
+
+<style>
+	.about-hero {
+		padding: var(--sp-24) 0 var(--sp-10);
+		background: var(--c-cream);
+	}
+	.about-hero h1 {
+		font-size: var(--fs-4xl);
+		margin: var(--sp-4) 0 0;
+		max-width: 18ch;
+	}
+	.about-hero h1 em {
+		color: var(--c-forest);
+		font-style: italic;
+	}
+
+	.prose p { font-size: 1.1rem; line-height: 1.75; color: var(--c-ink-soft); margin-bottom: var(--sp-6); }
+	.prose .lede { color: var(--c-ink); margin-bottom: var(--sp-8); }
+
+	.parent {
+		background: var(--c-forest);
+		color: var(--c-bone);
+		padding: var(--sp-24) 0;
+	}
+	.parent-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--sp-12);
+	}
+	@media (min-width: 900px) { .parent-grid { grid-template-columns: 1fr 1.4fr; gap: var(--sp-16); } }
+
+	.parent h2 {
+		color: var(--c-bone);
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		line-height: 1.05;
+		margin: 0;
+	}
+	.parent-strap {
+		font-family: var(--ff-serif);
+		font-style: italic;
+		color: rgba(248, 246, 241, 0.75);
+		font-size: 1.1rem;
+		margin-top: var(--sp-4);
+	}
+	.parent-body p {
+		font-size: 1.05rem;
+		line-height: 1.75;
+		color: rgba(248, 246, 241, 0.85);
+		margin-bottom: var(--sp-5);
+	}
+	.parent-channels {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--sp-2);
+		list-style: none;
+		padding: 0;
+		margin: var(--sp-6) 0 var(--sp-8);
+	}
+	.parent-channels li {
+		padding: 0.4rem 0.9rem;
+		border: 1px solid rgba(248, 246, 241, 0.25);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+	.parent-credit a {
+		font-size: 0.85rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		font-weight: 500;
+		border-bottom: 1px solid currentColor;
+		padding-bottom: 2px;
+	}
+</style>
