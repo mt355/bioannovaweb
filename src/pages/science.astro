@@ -57,11 +57,29 @@ const principles = [
 	<section class="claims">
 		<div class="container-narrow">
 			<h2 class="reveal">A note on claims</h2>
-			<p class="reveal">
-				{`{{ FILL: clinical-claims placeholder — replace with the specific
-				trial data, RDA test results, and regulatory references you want to
-				cite. Until then, we make only ingredient-level claims supported by
-				published research. }}`}
+			<p class="reveal claims-lede">
+				Every BioAnnova paste is formulated to the FDA OTC Anticaries
+				Monograph standard (21 CFR §355). The fluoride active, the
+				concentration, and the indications match what the FDA recognises
+				as safe and effective for daily caries prevention — the same
+				framework every fluoride toothpaste sold in the United States is
+				built to.
+			</p>
+			<p class="reveal claims-lede">
+				We dose at <strong>1450 ppm fluoride</strong> — the level the
+				NHS and the WHO recommend for adults and at-risk children, and
+				the level the 2019 Cochrane Review identified as significantly
+				more protective than 1000–1250 ppm pastes. It is the highest
+				concentration sold without prescription in the UK, the EU, and
+				the US.
+			</p>
+			<p class="reveal claims-fine">
+				References: Cochrane Review CD007868 (Walsh et al., 2019) ·
+				NHS <em>Delivering Better Oral Health</em> (PHE, Ch. 9) · FDA
+				OTC Monograph M021 · WHO oral-health guidance. BioAnnova
+				products are manufactured in the UK by Herbapharmedica Ltd under
+				GMP. We make no claims of individual FDA product approval; the
+				monograph is a formulation standard, not a per-product clearance.
 			</p>
 		</div>
 	</section>
@@ -112,6 +130,25 @@ const principles = [
 	}
 
 	.claims { padding: var(--sp-20) 0; background: var(--c-bone-warm); }
-	.claims h2 { font-size: 1.75rem; margin-bottom: var(--sp-4); }
-	.claims p { font-family: var(--ff-serif); font-style: italic; color: var(--c-ink-mute); font-size: 1.05rem; }
+	.claims h2 { font-size: 1.75rem; margin-bottom: var(--sp-6); }
+	.claims-lede {
+		font-family: var(--ff-serif);
+		color: var(--c-ink-soft);
+		font-size: 1.05rem;
+		line-height: 1.7;
+		margin-bottom: var(--sp-5);
+	}
+	.claims-lede strong {
+		font-weight: 500;
+		color: var(--c-forest);
+	}
+	.claims-fine {
+		font-size: 0.82rem;
+		line-height: 1.6;
+		color: var(--c-ink-mute);
+		margin-top: var(--sp-8);
+		padding-top: var(--sp-6);
+		border-top: 1px solid var(--c-line);
+	}
+	.claims-fine em { font-style: italic; }
 </style>
